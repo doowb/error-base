@@ -1,13 +1,4 @@
-# {%= name %} {%= badge("fury") %} {%= badge("travis") %}
-
-> {%= description %}
-
-{%= include("install-npm", {save: true}) %}
-
-## Usage
-
-```js
-var errorBase = require('{%= name %}');
+var errorBase = require('./');
 
 // Create a new HelperError that takes additional options.
 var HelperError = errorBase('HelperError', function (msg, options) {
@@ -28,24 +19,3 @@ try {
   console.log(err.options);
   //=> { helper: 'helper-name', foo: 'bar' }
 }
-```
-
-## API
-{%= apidocs("index.js") %}
-
-## Running tests
-{%= include("tests") %}
-
-## Contributing
-{%= include("contributing") %}
-
-## Author
-{%= include("author") %}
-
-## License
-{%= copyright() %}
-{%= license() %}
-
-***
-
-{%= include("footer") %}

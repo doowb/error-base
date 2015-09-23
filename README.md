@@ -1,49 +1,82 @@
-# error-base [![NPM version](https://badge.fury.io/js/error-base.svg)](http://badge.fury.io/js/error-base)  [![Build Status](https://travis-ci.org/doowb/error-base.svg)](https://travis-ci.org/doowb/error-base) 
+# error-base [![NPM version](https://badge.fury.io/js/error-base.svg)](http://badge.fury.io/js/error-base)  [![Build Status](https://travis-ci.org/doowb/error-base.svg)](https://travis-ci.org/doowb/error-base)
 
 > Create custom Error classes.
 
-## Install with [npm](npmjs.org)
+Install with [npm](https://www.npmjs.com/)
 
-```bash
-npm i error-base --save
+```sh
+$ npm i error-base --save
 ```
 
 ## Usage
 
 ```js
 var errorBase = require('error-base');
+
+// Create a new HelperError that takes additional options.
+var HelperError = errorBase('HelperError', function (msg, options) {
+  this.message = msg;
+  this.options = options || {};
+});
+
+try {
+  // Throw a HelperError given the custom arguments
+  throw new HelperError('some error message', {
+    helper: 'helper-name',
+    foo: 'bar'
+  });
+} catch (err) {
+  console.log(err.message);
+  //=> 'some error message'
+
+  console.log(err.options);
+  //=> { helper: 'helper-name', foo: 'bar' }
+}
 ```
 
 ## API
-<!-- add a path or glob pattern for files with code comments to use for docs  -->
-{%= apidocs("index.js") %}
 
-## Related projects
-<!-- add an array of related projects, then un-escape the helper -->
-{%= related([]) %}  
+### [errorBase](index.js#L26)
 
-## Running tests
-Install dev dependencies.
+Code modified from http://stackoverflow.com/a/27925672/914583
 
-```bash
-npm i -d && npm test
+**Params**
+
+* `name` **{String}**: Name of new Error Class
+* `init` **{Function}**: Function to call when creating new Error
+* `returns` **{Function}**: new Error Class
+
+**Example**
+
+```js
+var CustomError = errorBase('CustomError', function (msg) {
+  this.msg = msg;
+});
 ```
 
+## Running tests
+
+Install dev dependencies:
+
+```sh
+$ npm i -d && npm test
+```
 
 ## Contributing
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/doowb/error-base/issues)
 
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/doowb/error-base/issues/new).
 
 ## Author
 
 **Brian Woodward**
- 
+
 + [github/doowb](https://github.com/doowb)
-+ [twitter/doowb](http://twitter.com/doowb) 
++ [twitter/doowb](http://twitter.com/doowb)
 
 ## License
+
 Copyright © 2015 Brian Woodward
-Released under the MIT license
+Released under the MIT license.
 
 ***
 

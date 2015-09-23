@@ -13,6 +13,12 @@ var should = require('should');
 var errorBase = require('./');
 
 describe('errorBase', function () {
+  it('should throw an error when `name` is undefined', function () {
+    (function () {
+      errorBase();
+    }).should.throw('expected `name` to be a string.');
+  });
+
   it('should create a new custom error type', function () {
     var CustomError = errorBase('CustomError');
     assert.equal(CustomError.prototype.name, 'CustomError');
@@ -62,9 +68,37 @@ describe('errorBase', function () {
     error.should.have.property('stack');
   });
 
-  it('should throw an error when `name` is undefined', function () {
+  it('should throw a custom error', function () {
+    var CustomError = errorBase('CustomError', function (msg, options) {
+      this.message = msg;
+      this.options = options || {};
+    });
+
     (function () {
-      errorBase();
-    }).should.throw('expected `name` to be a string.');
+      throw new CustomError('custom error message', {
+        method: 'test',
+        foo: 'bar'
+      });
+    }).should.throw('custom error message');
+  });
+
+  it('should contain custom information when a custom error is thrown', function () {
+    var CustomError = errorBase('CustomError', function (msg, options) {
+      this.message = msg;
+      this.options = options || {};
+    });
+
+    try {
+      throw new CustomError('custom error message', {
+        method: 'test',
+        foo: 'bar'
+      });
+    } catch (err) {
+      assert.equal((err instanceof CustomError), true);
+      assert.equal((err instanceof Error), true);
+      assert.equal(err.message, 'custom error message');
+      assert.deepEqual(err.options, { method: 'test', foo: 'bar' });
+      err.should.have.property('stack');
+    }
   });
 });
