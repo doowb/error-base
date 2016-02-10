@@ -36,7 +36,7 @@ try {
 
 ## API
 
-### [errorBase](index.js#L25)
+### [errorBase](index.js#L26)
 
 Code modified from http://stackoverflow.com/a/27925672/914583
 
@@ -44,6 +44,7 @@ Code modified from http://stackoverflow.com/a/27925672/914583
 
 * `name` **{String}**: Name of new Error Class
 * `init` **{Function}**: Function to call when creating new Error
+* `capture` **{Boolean}**: Optional parameter to determine if the stack trace should be captured or not. (Defaults to `true`)
 * `returns` **{Function}**: new Error Class
 
 **Example**
