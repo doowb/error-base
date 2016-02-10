@@ -20,7 +20,6 @@
  * @param  {Function} `init` Function to call when creating new Error
  * @return {Function} new Error Class
  * @api public
- * @name  errorBase
  */
 
 module.exports = function errorBase (name, init, capture) {

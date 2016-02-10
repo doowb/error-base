@@ -20,7 +20,13 @@
     "test": "mocha"
   },
   "devDependencies": {
+    "gulp-format-md": "^0.1.5",
     "mocha": "*",
     "should": "^7.1.0"
+  },
+  "verb": {
+    "plugins": [
+      "gulp-format-md"
+    ]
   }
 }
