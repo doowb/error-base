@@ -18,6 +18,7 @@
  *
  * @param  {String} `name` Name of new Error Class
  * @param  {Function} `init` Function to call when creating new Error
+ * @param {Boolean} `capture` Optional parameter to determine if the stack trace should be captured or not. (Defaults to `true`)
  * @return {Function} new Error Class
  * @api public
  */
@@ -50,9 +51,24 @@ module.exports = function errorBase (name, init, capture) {
   return Type;
 };
 
+/**
+ * Default identity function used to just set the `message` property when another
+ * `init` function is not passed in.
+ *
+ * @param  {String} `message` Message to set.
+ */
+
 function identity (message) {
   this.message = message;
 }
+
+/**
+ * Define a non-enumerable property on an object.
+ *
+ * @param  {Object} `obj` Object to define property on.
+ * @param  {String} `prop` Property name.
+ * @param  {*} `val` Value to define on the property.
+ */
 
 function define(obj, prop, val) {
   Object.defineProperty(obj, prop, {
