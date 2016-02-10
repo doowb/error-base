@@ -20,7 +20,11 @@
     "test": "mocha"
   },
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^1.1.1",
     "gulp-format-md": "^0.1.5",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0",
     "mocha": "*",
     "should": "^7.1.0"
   },
