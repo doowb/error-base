@@ -23,7 +23,7 @@
  * @name  errorBase
  */
 
-module.exports = function errorBase (name, init) {
+module.exports = function errorBase (name, init, capture) {
   if (typeof name !== 'string') {
     throw new TypeError('expected `name` to be a string.');
   }
@@ -31,19 +31,19 @@ module.exports = function errorBase (name, init) {
   if (typeof init !== 'function') {
     init = identity;
   }
+  capture = typeof capture === 'boolean' ? capture : true;
 
   function Type () {
     if (!Error.captureStackTrace) {
-      this.stack = (new Error()).stack;
-    }
-    else {
-      Error.captureStackTrace(this, this.constructor);
+      if (capture) this.stack = (new Error()).stack;
+    } else {
+      if (capture) Error.captureStackTrace(this, this.constructor);
     }
 
     init.apply(this, arguments);
   }
 
-  Type.prototype = new Error();
+  Type.prototype = Object.create(Error.prototype);
   Type.prototype.name = name;
   Type.prototype.constructor = Type;
 
