@@ -55,6 +55,35 @@ describe('errorBase', function () {
     error.should.have.property('stack');
   });
 
+  it('should create a new instance of a custom error without a stack', function () {
+    var CustomError = errorBase('CustomError', function (msg) {
+      this.msg = msg;
+    }, false);
+    var error = new CustomError('custom message');
+    assert.equal((error instanceof CustomError), true);
+    assert.equal((error instanceof Error), true);
+    assert.equal(error.msg, 'custom message');
+    assert.equal(error.message, '');
+    error.should.not.have.property('stack');
+  });
+
+  it('should create a new instance of a custom error with a stack (when captureStackTrace is missing)', function () {
+    var captureStackTrace = Error.captureStackTrace;
+    delete Error.captureStackTrace;
+
+    var CustomError = errorBase('CustomError', function (msg) {
+      this.msg = msg;
+    });
+    var error = new CustomError('custom message');
+    Error.captureStackTrace = captureStackTrace;
+
+    assert.equal((error instanceof CustomError), true);
+    assert.equal((error instanceof Error), true);
+    assert.equal(error.msg, 'custom message');
+    assert.equal(error.message, '');
+    error.should.have.property('stack');
+  });
+
   it('should create a new instance of a custom error with multiple arguments', function () {
     var CustomError = errorBase('CustomError', function (msg, options) {
       this.message = msg;
