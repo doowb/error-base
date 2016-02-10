@@ -33,12 +33,13 @@ module.exports = function errorBase (name, init, capture) {
   capture = typeof capture === 'boolean' ? capture : true;
 
   function Type () {
-    if (!Error.captureStackTrace) {
-      if (capture) this.stack = (new Error()).stack;
-    } else {
-      if (capture) Error.captureStackTrace(this, this.constructor);
+    if (capture) {
+      if (!Error.captureStackTrace) {
+        define(this, 'stack', (new Error()).stack);
+      } else {
+        Error.captureStackTrace(this, this.constructor);
+      }
     }
-
     init.apply(this, arguments);
   }
 
@@ -51,4 +52,12 @@ module.exports = function errorBase (name, init, capture) {
 
 function identity (message) {
   this.message = message;
+}
+
+function define(obj, prop, val) {
+  Object.defineProperty(obj, prop, {
+    enumerable: false,
+    configurable: true,
+    value: val
+  });
 }
